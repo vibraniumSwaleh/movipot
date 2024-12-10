@@ -56,10 +56,10 @@ export default function App() {
   return (
     <>
       <NavBar movies={movies} />
-      <main className='main'>
+      <Main>
         <ListBox movies={movies} />
         <WatchedBox movies={movies} />
-      </main>
+      </Main>
     </>
   );
 }
@@ -106,6 +106,10 @@ function NumResults({ movies }) {
 }
 
 ///////////// MAIN ////////////
+function Main({ children }) {
+  return <main className='main'>{children}</main>;
+}
+
 function Button({ isOpen, setIsOpen }) {
   return (
     <button className='btn-toggle' onClick={() => setIsOpen((open) => !open)}>
@@ -139,7 +143,11 @@ function Movie({ movie }) {
   );
 }
 
-function Summary({ watched, avgImdbRating, avgUserRating, avgRuntime }) {
+function WatchedSummary({ watched }) {
+  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
+  const avgUserRating = average(watched.map((movie) => movie.userRating));
+  const avgRuntime = average(watched.map((movie) => movie.runtime));
+
   return (
     <div className='summary'>
       <h2>Movies you watched</h2>
@@ -165,17 +173,17 @@ function Summary({ watched, avgImdbRating, avgUserRating, avgRuntime }) {
   );
 }
 
-function SummaryList({ watched }) {
+function WatchedMovieList({ watched }) {
   return (
     <ul className='list'>
       {watched.map((movie) => (
-        <SummaryItem key={movie.imdbID} movie={movie} />
+        <WatchedMovie key={movie.imdbID} movie={movie} />
       ))}
     </ul>
   );
 }
 
-function SummaryItem({ movie }) {
+function WatchedMovie({ movie }) {
   return (
     <li>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
@@ -213,22 +221,13 @@ function WatchedBox() {
   const [watched, setWatched] = useState(tempWatchedData);
   const [isOpen2, setIsOpen2] = useState(true);
 
-  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
-  const avgUserRating = average(watched.map((movie) => movie.userRating));
-  const avgRuntime = average(watched.map((movie) => movie.runtime));
-
   return (
     <div className='box'>
       <Button isOpen={isOpen2} setIsOpen={setIsOpen2} />
       {isOpen2 && (
         <>
-          <Summary
-            watched={watched}
-            avgImdbRating={avgImdbRating}
-            avgUserRating={avgUserRating}
-            avgRuntime={avgRuntime}
-          />
-          <SummaryList watched={watched} />
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
         </>
       )}
     </div>
