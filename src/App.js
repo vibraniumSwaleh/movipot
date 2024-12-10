@@ -64,13 +64,27 @@ export default function App() {
 }
 
 function Nav({ movies }) {
-  const [query, setQuery] = useState('');
+  return (
+    <nav className='nav-bar'>
+      <Logo />
+      <Search />
+      <Results movies={movies} />
+    </nav>
+  );
+}
 
-  <nav className='nav-bar'>
+function Logo() {
+  return (
     <div className='logo'>
       <span role='img'>🍿</span>
       <h1>usePopcorn</h1>
     </div>
+  );
+}
+
+function Search() {
+  const [query, setQuery] = useState('');
+  return (
     <input
       className='search'
       type='text'
@@ -78,10 +92,49 @@ function Nav({ movies }) {
       value={query}
       onChange={(e) => setQuery(e.target.value)}
     />
+  );
+}
+
+function Results({ movies }) {
+  return (
     <p className='num-results'>
       Found <strong>{movies.length}</strong> results
     </p>
-  </nav>;
+  );
+}
+
+///////////// MAIN ////////////
+function Button({ isOpen, setIsOpen }) {
+  return (
+    <button className='btn-toggle' onClick={() => setIsOpen((open) => !open)}>
+      {isOpen ? '–' : '+'}
+    </button>
+  );
+}
+
+function MovieList({ movies }) {
+  return (
+    <ul className='list'>
+      {movies?.map((movie) => (
+        <Movie key={movie.imdbID} movie={movie} />
+      ))}
+    </ul>
+  );
+}
+
+function Movie({ movie }) {
+  return (
+    <li key={movie.imdbID}>
+      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <h3>{movie.Title}</h3>
+      <div>
+        <p>
+          <span>🗓</span>
+          <span>{movie.Year}</span>
+        </p>
+      </div>
+    </li>
+  );
 }
 
 function Main({ watched, movies }) {
@@ -94,37 +147,13 @@ function Main({ watched, movies }) {
   return (
     <main className='main'>
       <div className='box'>
-        <button
-          className='btn-toggle'
-          onClick={() => setIsOpen1((open) => !open)}
-        >
-          {isOpen1 ? '–' : '+'}
-        </button>
-        {isOpen1 && (
-          <ul className='list'>
-            {movies?.map((movie) => (
-              <li key={movie.imdbID}>
-                <img src={movie.Poster} alt={`${movie.Title} poster`} />
-                <h3>{movie.Title}</h3>
-                <div>
-                  <p>
-                    <span>🗓</span>
-                    <span>{movie.Year}</span>
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+        <Button isOpen={isOpen1} setIsOpen={setIsOpen1} />
+        {isOpen1 && <MovieList movies={movies} />}
       </div>
 
       <div className='box'>
-        <button
-          className='btn-toggle'
-          onClick={() => setIsOpen2((open) => !open)}
-        >
-          {isOpen2 ? '–' : '+'}
-        </button>
+        <Button isOpen={isOpen2} setIsOpen={setIsOpen2} />
+
         {isOpen2 && (
           <>
             <div className='summary'>
