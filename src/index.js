@@ -9,7 +9,12 @@ root.render(
   <React.StrictMode>
     {/* <App /> */}
     <StartRating maxRating={6} />
-    <StartRating maxRating={9} />
-    <StartRating maxRating={15} />
+    <StartRating maxRating={4} color='red' size='24' />
+    <StartRating
+      maxRating={4}
+      color='blue'
+      size='32'
+      messages={['Very good', 'Good', 'Bad', 'Very bad']}
+    />
   </React.StrictMode>,
 );
