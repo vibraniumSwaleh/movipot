@@ -55,30 +55,57 @@ const KEY = '9a2671d6';
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
-  const query = 'Prison Break';
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingError, setLoadingError] = useState('');
+  const [query, setQuery] = useState('');
+  const tempQuery = 'avengers';
 
-  useEffect(function () {
-    async function fetchMovies() {
-      const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
-      );
-      const data = await res.json();
-      setMovies(data.Search);
-      console.log(data.Search);
-    }
-    fetchMovies();
-  }, []);
+  useEffect(
+    function () {
+      async function fetchMovies() {
+        try {
+          setIsLoading(true);
+          setLoadingError('');
+          const res = await fetch(
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+          );
+          if (!res.ok) throw new Error(' Something went wrong ');
+          const data = await res.json();
+          if (data.Response === 'False') throw new Error(' Movie not found ');
+
+          setMovies(data.Search);
+          console.log(data.Search);
+        } catch (error) {
+          setLoadingError(error.message);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+
+      if (query.length < 3) {
+        setMovies([]);
+        setLoadingError('');
+        return;
+      }
+
+      fetchMovies();
+    },
+    [query],
+  );
 
   return (
     <>
       <NavBar>
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
 
       <Main>
         <Box>
-          <MovieList movies={movies} />
+          {isLoading && <Loader />}
+          {!isLoading && !loadingError && <MovieList movies={movies} />}
+          {loadingError && <ErrorMessage message={loadingError} />}
+          {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
         </Box>
 
         <Box>
@@ -109,8 +136,7 @@ function Logo() {
   );
 }
 
-function Search() {
-  const [query, setQuery] = useState('');
+function Search({ query, setQuery }) {
   return (
     <input
       className='search'
@@ -239,5 +265,19 @@ function Button({ isOpen, setIsOpen }) {
     <button className='btn-toggle' onClick={() => setIsOpen((open) => !open)}>
       {isOpen ? '–' : '+'}
     </button>
+  );
+}
+
+function Loader() {
+  return <p className='loader'>Loading...</p>;
+}
+
+function ErrorMessage({ message }) {
+  return (
+    <p className='error'>
+      <span>🚫</span>
+      {message}
+      <span>🚫</span>
+    </p>
   );
 }
