@@ -106,6 +106,10 @@ export default function App() {
     console.log('movieID: ', movieID);
   }
 
+  function handleAddWatched(movie) {
+    setWatched((watched) => [...watched, movie]);
+  }
+
   return (
     <>
       <NavBar>
@@ -120,7 +124,6 @@ export default function App() {
             <MovieList movies={movies} onSelect={handleSelectedMovie} />
           )}
           {loadingError && <ErrorMessage message={loadingError} />}
-          {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
         </Box>
 
         <Box>
@@ -128,6 +131,7 @@ export default function App() {
             <MovieDetails
               movieID={selectedMovieID}
               onCloseMobie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
             />
           ) : (
             <>
@@ -221,7 +225,7 @@ function Movie({ movie, onSelect }) {
   );
 }
 
-function MovieDetails({ movieID, onCloseMobie }) {
+function MovieDetails({ movieID, onCloseMobie, onAddWatched }) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -238,7 +242,18 @@ function MovieDetails({ movieID, onCloseMobie }) {
     Genre: genre,
   } = movie;
 
-  console.log(title, year);
+  function handleOnAdd() {
+    const newWatchedMovie = {
+      imdbID: movieID,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating),
+      runtime: Number(runtime.split(' ').at(0)),
+    };
+
+    onAddWatched(newWatchedMovie);
+  }
 
   useEffect(
     function () {
@@ -263,7 +278,6 @@ function MovieDetails({ movieID, onCloseMobie }) {
         <Loader />
       ) : (
         <>
-          {' '}
           <header>
             <button className='btn-back' onClick={onCloseMobie}>
               &larr;
@@ -284,6 +298,9 @@ function MovieDetails({ movieID, onCloseMobie }) {
           <section>
             <div className='rating'>
               <StartRating maxRating={10} size={24} />
+              <button className='btn-add' onClick={handleOnAdd}>
+                + Add to list
+              </button>
             </div>
             <p>
               <em>{plot}</em>
