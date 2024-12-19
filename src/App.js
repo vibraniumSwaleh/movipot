@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import StartRating from './StarRating';
 
 const tempMovieData = [
@@ -286,6 +286,14 @@ function MovieDetails({ movieID, onCloseMobie, onAddWatched, watched }) {
       getMovieDetails();
     },
     [movieID],
+  );
+
+  useEffect(
+    function () {
+      if (!title) return;
+      document.title = `Movie: ${title}`;
+    },
+    [title],
   );
 
   return (
