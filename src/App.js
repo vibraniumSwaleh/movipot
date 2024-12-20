@@ -78,9 +78,11 @@ export default function App() {
           if (data.Response === 'False') throw new Error(' Movie not found ');
 
           setMovies(data.Search);
-          console.log(data.Search);
+          setLoadingError('');
         } catch (error) {
-          setLoadingError(error.message);
+          if (error.message !== 'AboutError') {
+            setLoadingError(error.message);
+          }
         } finally {
           setIsLoading(false);
         }
@@ -93,6 +95,7 @@ export default function App() {
       }
 
       fetchMovies();
+
       return function () {
         controller.abort();
       };
@@ -304,6 +307,17 @@ function MovieDetails({ movieID, onCloseMobie, onAddWatched, watched }) {
       };
     },
     [title],
+  );
+
+  useEffect(
+    function () {
+      document.addEventListener('keydown', function (e) {
+        if (e.code === 'Escape') {
+          onCloseMobie();
+        }
+      });
+    },
+    [onCloseMobie],
   );
 
   return (
