@@ -8,7 +8,6 @@ const KEY = '9a2671d6';
 
 export default function App() {
   const [movies, setMovies] = useState([]);
-  // const [watched, setWatched] = useState([]);
   const [watched, setWatched] = useState(getStoredMovies);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingError, setLoadingError] = useState('');
@@ -140,7 +139,7 @@ function Logo() {
   return (
     <div className='logo'>
       <span role='img'>🍿</span>
-      <h1>usePopcorn</h1>
+      <h1>MoviPot</h1>
     </div>
   );
 }
@@ -162,7 +161,7 @@ function Search({ query, setQuery }) {
 
       return () => document.removeEventListener('keydown', callBack);
     },
-    [setQuery],
+    [setQuery, query],
   );
 
   return (
@@ -231,6 +230,15 @@ function MovieDetails({ movieID, onCloseMobie, onAddWatched, watched }) {
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState('');
 
+  const countRef = useRef(0);
+
+  useEffect(
+    function () {
+      if (userRating) countRef.current = countRef.current++;
+    },
+    [userRating],
+  );
+
   const isWatched = watched.map((movie) => movie.imdbID).includes(movieID);
   const watchedUserRating = watched.find(
     (movie) => movie.imdbID === movieID,
@@ -258,6 +266,7 @@ function MovieDetails({ movieID, onCloseMobie, onAddWatched, watched }) {
       imdbRating: Number(imdbRating),
       userRating,
       runtime: Number(runtime.split(' ').at(0)),
+      countRatingDecisions: countRef.current,
     };
 
     onAddWatched(newWatchedMovie);
