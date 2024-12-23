@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 const KEY = '9a2671d6';
 
-function useMovies(query) {
+function useMovies(query, callBack) {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingError, setLoadingError] = useState('');
@@ -40,7 +40,6 @@ function useMovies(query) {
         return;
       }
 
-      // handleCloseMovie();
       fetchMovies();
 
       return function () {
