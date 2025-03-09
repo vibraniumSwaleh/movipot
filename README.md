@@ -1,71 +1,100 @@
-# Getting Started with Create React App
+# MoviPot
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+MoviPot is a React-based movie rating application that allows users to browse and rate movies. The project is built with React 19 and leverages custom hooks for state management.
 
-## Available Scripts
+![Search Movies](public/movi-pot-1.png)
+![Bookmark Movies](public/movi-pot-2.png)
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Scripts](#scripts)
+- [Technologies Used](#technologies-used)
+- [License](#license)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Browse movie listings
+- Rate movies using a star rating system
+- Persist user ratings with local storage
+- Keyboard shortcuts support
 
-### `npm test`
+## Project Structure
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+.
+├── README.md
+├── index.css
+├── package-lock.json
+├── package.json
+├── public
+│ ├── favicon.ico
+│ ├── index.html
+│ ├── logo192.png
+│ ├── logo512.png
+│ ├── manifest.json
+│ ├── movi-pot-1.png
+│ ├── movi-pot-2.png
+│ └── robots.txt
+└── src
+├── App-v1.js
+├── App-v2.js
+├── App.js
+├── StarRating.js
+├── index.css
+├── index.js
+├── useKey.js
+├── useLocalStorageState.js
+└── useMovies.js
+```
 
-### `npm run build`
+## Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To set up the project locally, follow these steps:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+   git clone https://github.com/yourusername/movipot.git
+   cd movipot
+```
 
-### `npm run eject`
+2. Install dependencies:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm install
+Start the development server:
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Start the development server:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Usage
 
-## Learn More
+Once the server is running, open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Scripts
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The following npm scripts are available:
 
-### Code Splitting
+- `npm start` - Runs the app in development mode.
+- `npm run build` - Builds the app for production.
+- `npm test` - Runs tests.
+- `npm run eject` - Ejects the application (use with caution).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Technologies Used
 
-### Analyzing the Bundle Size
+- **React 19** - Frontend library
+- **React Hooks** - State management
+- **CSS** - Styling
+- **Local Storage** - Data persistence
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## License
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# movipot
+This project is licensed under the MIT License.

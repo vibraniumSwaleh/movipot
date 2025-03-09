@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import StartRating from './StarRating';
 import useMovies from './useMovies';
 import useLocalStorageState from './useLocalStorageState';
+import useKey from './useKey';
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -31,18 +32,7 @@ export default function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
 
-  // function getStoredMovies() {
-  //   return JSON.parse(localStorage.getItem('watched'));
-  // }
-
   const { movies, isLoading, loadingError } = useMovies(query);
-
-  // useEffect(
-  //   function () {
-  //     localStorage.setItem('watched', JSON.stringify(watched));
-  //   },
-  //   [watched],
-  // );
 
   return (
     <>
@@ -105,22 +95,12 @@ function Logo() {
 function Search({ query, setQuery }) {
   const inputEl = useRef(null);
 
-  useEffect(
-    function () {
-      function callBack(e) {
-        if (document.activeElement === inputEl.current) return;
-        if (e.code === 'Enter') {
-          inputEl.current.focus();
-          setQuery('');
-        }
-      }
+  useKey('Enter', function () {
+    if (document.activeElement === inputEl.current) return;
 
-      document.addEventListener('keydown', callBack);
-
-      return () => document.removeEventListener('keydown', callBack);
-    },
-    [setQuery, query],
-  );
+    inputEl.current.focus();
+    setQuery('');
+  });
 
   return (
     <input
@@ -260,21 +240,7 @@ function MovieDetails({ movieID, onCloseMobie, onAddWatched, watched }) {
     [title],
   );
 
-  useEffect(
-    function () {
-      function callBack(e) {
-        if (e.code === 'Escape') {
-          onCloseMobie();
-        }
-      }
-      document.addEventListener('keydown', callBack);
-
-      return function () {
-        document.removeEventListener('keydown', callBack);
-      };
-    },
-    [onCloseMobie],
-  );
+  useKey('Escape', onCloseMobie);
 
   return (
     <div className='details'>
