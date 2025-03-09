@@ -40,8 +40,6 @@ MoviPot is a React-based movie rating application that allows users to browse an
 │ ├── movi-pot-2.png
 │ └── robots.txt
 └── src
-├── App-v1.js
-├── App-v2.js
 ├── App.js
 ├── StarRating.js
 ├── index.css
